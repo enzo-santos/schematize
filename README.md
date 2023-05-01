@@ -35,26 +35,26 @@ specified by the schema and is therefore considered unacceptable.
 
 ### The basics
 
-The most common thing to do in a schema is to restrict to a specific type. The `SchemaType.of` is used for that:
+The most common thing to do in a schema is to restrict to a specific type. The `Schema.of` is used for that:
 
 ```dart
 void main() {
   // In the following, only strings are accepted
-  const SchemaType type = SchemaType.of(String);
+  const Schema type = Schema.of(String);
   print(type.validate("I'm a string")); // true
   print(type.validate(42)); // false 
   print(type.validate([])); // false 
 }
 ```
 
-To restrict to a subset of types, we can use `SchemaType.union`:
+To restrict to a subset of types, we can use `Schema.union`:
 
 ```dart
 void main() {
   // In the following, only strings and integers are accepted
-  const SchemaType type = SchemaType.union([
-    SchemaType.of(String),
-    SchemaType.of(int),
+  const Schema type = Schema.union([
+    Schema.of(String),
+    Schema.of(int),
   ]);
   print(type.validate("I'm a string")); // true
   print(type.validate(42)); // true
@@ -68,7 +68,7 @@ The length of a string can be constrained using the `minLength` and `maxLength` 
 
 ```dart
 void main() {
-  const SchemaType type = SchemaType.string(minLength: 2, maxLength: 3);
+  const Schema type = Schema.string(minLength: 2, maxLength: 3);
   print(type.validate('A')); // false
   print(type.validate('AB')); // true
   print(type.validate('ABC')); // true
@@ -80,7 +80,7 @@ The `pattern` parameter can be used to restrict an instance to a particular regu
 
 ```dart
 void main() {
-  const SchemaType type = SchemaType.string(pattern: r'^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$');
+  const Schema type = Schema.string(pattern: r'^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$');
   print(type.validate('555-1212')); //  false
   print(type.validate('(888)555-1212')); // true
   print(type.validate('(888)555-1212 ext. 532')); // true
@@ -94,7 +94,7 @@ The `multipleOf` parameter can be used to restrict to a multiple of a given numb
 
 ```dart
 void main() {
-  const SchemaType type = SchemaType.number(multipleOf: 10);
+  const Schema type = Schema.number(multipleOf: 10);
   print(type.validate(0)); //  false
   print(type.validate(10)); // true
   print(type.validate(20)); // true
@@ -107,7 +107,7 @@ The `minimum` and `maximum` parameters can be used to specify a range of numbers
 
 ```dart
 void main() {
-  const SchemaType type = SchemaType.number(minimum: 0, exclusiveMaximum: 100);
+  const Schema type = Schema.number(minimum: 0, exclusiveMaximum: 100);
   print(type.validate(-1)); // false
   print(type.validate(0)); // true
   print(type.validate(10)); // true
@@ -119,11 +119,11 @@ void main() {
 
 ### Maps
 
-To work with maps (an object), we can use `SchemaType.object`:
+To work with maps (an object), we can use `Schema.object`:
 
 ```dart
 void main() {
-  const SchemaType type = SchemaType.object({});
+  const Schema type = Schema.object({});
   print(type.validate({'key': 'vale', 'anotherKey': 'anotherValue'})); // true
 }
 ```
@@ -132,10 +132,10 @@ The properties on an object are defined using the `types` parameter:
 
 ```dart
 void main() {
-  const SchemaType type = SchemaType.object({
-    'number': SchemaType.number(),
-    'streetName': SchemaType.string(),
-    'streetType': SchemaType.enumeration({'Street', 'Avenue', 'Boulevard'}),
+  const Schema type = Schema.object({
+    'number': Schema.number(),
+    'streetName': Schema.string(),
+    'streetType': Schema.enumeration({'Street', 'Avenue', 'Boulevard'}),
   });
   print(type.validate({
     'number': 1600,
@@ -164,10 +164,10 @@ To reject additional properties, use the `strict` parameter:
 
 ```dart
 void main() {
-  const SchemaType type = SchemaType.object({
-    'number': SchemaType.number(),
-    'streetName': SchemaType.string(),
-    'streetType': SchemaType.enumeration({'Street', 'Avenue', 'Boulevard'}),
+  const Schema type = Schema.object({
+    'number': Schema.number(),
+    'streetName': Schema.string(),
+    'streetType': Schema.enumeration({'Street', 'Avenue', 'Boulevard'}),
   }, strict: true);
   print(type.validate({
     'number': 1600,
@@ -187,14 +187,14 @@ void main() {
 }
 ```
 
-To make some properties optional, use the `SchemaType.optional` constructor:
+To make some properties optional, use the `Schema.optional` constructor:
 
 ```dart
 void main() {
-  const SchemaType type = SchemaType.object({
-    'number': SchemaType.optional(SchemaType.number()), // Number may be passed
-    'streetName': SchemaType.string(),
-    'streetType': SchemaType.enumeration({'Street', 'Avenue', 'Boulevard'}),
+  const Schema type = Schema.object({
+    'number': Schema.optional(Schema.number()), // Number may be passed
+    'streetName': Schema.string(),
+    'streetType': Schema.enumeration({'Street', 'Avenue', 'Boulevard'}),
   });
   print(type.validate({
     'number': 1600,
