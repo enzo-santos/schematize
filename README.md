@@ -4,7 +4,7 @@ A Dart object validator, similar to JSON schemas.
 
 ## Disclaimer
 
-While Schematize's syntax and behavior are inspired by JSON Schema, it is important to note that this library 
+While Schematize's syntax and behavior are inspired by JSON Schema, it is important to note that this library
 is *not* a JSON Schema implementation. For this purpose, you can use the following libraries:
 
 - [`json_schema_document`](https://pub.dev/packages/json_schema_document)
@@ -13,7 +13,7 @@ is *not* a JSON Schema implementation. For this purpose, you can use the followi
 - [`json_schema3`](https://pub.dev/packages/json_schema3)
 - [`flutter_json_schema_form`](https://pub.dev/packages/flutter_json_schema_form)
 
-Schematize is designed specifically for use with Dart, and leverages Dart's static-typing and strong type system to 
+Schematize is designed specifically for use with Dart, and leverages Dart's static-typing and strong type system to
 provide *compile-time validation* of the schema and *run-time validation* of the instance.
 
 ## Motivation
@@ -298,7 +298,9 @@ To work with lists (or arrays), we can use `Schema.array`:
 
 ```dart
 void main() {
-  const Schema schema = Schema.array([]);
+  const Schema schema = Schema.array([Schema.of(int)]);
+  print(schema.validate([1, 2, 3])); // true
+  print(schema.validate(['1', '2', '3'])); // false
 }
 ```
 
