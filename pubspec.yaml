@@ -1,0 +1,10 @@
+name: schematize
+description: Allows the definition of a schema to validate any type in Dart.
+version: 0.1.0
+
+environment:
+  sdk: ">=2.17.1 <3.0.0"
+
+dev_dependencies:
+  test: ^1.24.2
+  lints: ^1.0.1
