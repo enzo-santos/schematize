@@ -1,4 +1,4 @@
-import 'debug_node.dart';
+import 'object_node.dart';
 
 /// A schema that validate Dart objects.
 ///
