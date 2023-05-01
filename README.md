@@ -67,7 +67,7 @@ consistent structure and meets certain standards.
 
 A *validation* is a *schema* accepting or rejecting a given *instance*, via the `validate` method of `Schema`:
 
-```
+```dart
 final bool accepted = schema.validate(instance);
 ```
 
@@ -403,3 +403,5 @@ void main() {
   })); // true
 }
 ```
+
+To read more about the `Schema` constructors, go to [lib/src/schema.dart](https://github.com/enzo-santos/schematize/blob/main/lib/src/schema.dart).
